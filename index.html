@@ -14,7 +14,7 @@
     }
 
     body {
-      background: linear-gradient(145deg, #1e1e2f, #2d2d44);
+      background: #0f0f0f;
       color: white;
       min-height: 100vh;
       display: flex;
@@ -26,13 +26,12 @@
     .container {
       width: 90%;
       max-width: 420px;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 24px;
       padding: 30px;
       text-align: center;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(14px);
       position: relative;
       z-index: 2;
     }
@@ -44,7 +43,7 @@
       height: 100px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid #ffffff33;
+      border: 2px solid #ffffff44;
       margin-bottom: 20px;
     }
 
@@ -60,30 +59,27 @@
       margin-bottom: 20px;
     }
 
-    /* 🔘 Modern Buttons */
+    /* ✅ Modern White Rounded Buttons */
     .btn, button {
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      padding: 12px 24px;
-      margin: 10px 6px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 16px;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(10px);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      padding: 14px 24px;
+      margin: 8px 4px;
+      background-color: white;
+      color: #111;
+      border: none;
+      border-radius: 40px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.08);
     }
 
     .btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 6px 18px rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
     }
 
     .quote {
@@ -94,23 +90,6 @@
       line-height: 1.6;
     }
 
-    .copy-btn {
-      padding: 10px 20px;
-      background: #fff;
-      color: #000;
-      font-weight: 600;
-      border-radius: 16px;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-
-    .copy-btn:hover {
-      background: #f0f0f0;
-      transform: scale(1.05);
-    }
-
     .status {
       background-color: #28a745;
       padding: 4px 12px;
@@ -118,6 +97,7 @@
       font-size: 12px;
       margin-right: 8px;
       display: inline-block;
+      color: white;
     }
 
     /* 🔄 Loading Screen */
@@ -125,7 +105,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: linear-gradient(145deg, #1e1e2f, #2d2d44);
+      background: #0f0f0f;
       z-index: 99;
       display: flex;
       align-items: center;
@@ -153,6 +133,22 @@
       opacity: 0;
       visibility: hidden;
     }
+
+    /* 🔔 Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      opacity: 0;
+      transition: all 0.4s ease;
+      font-size: 14px;
+      z-index: 999;
+    }
   </style>
 </head>
 <body>
@@ -162,6 +158,9 @@
   <div class="spinner"></div>
   <p>Loading...</p>
 </div>
+
+<!-- 🔔 Toast Notification -->
+<div id="toast">Tersalin!</div>
 
 <!-- 👋 Start Page -->
 <div class="container" id="startPage">
@@ -178,7 +177,7 @@
   <button class="btn">📢 Channels</button>
   <button class="btn">📬 Contact</button>
   <br/>
-  <button class="btn" onclick="alert('Belum tersedia')">🔒 Product</button>
+  <button class="btn" onclick="alert('Produk belum tersedia')">🔒 Product</button>
   <button class="btn" onclick="navigateTo('paymentPage')">💳 Payments</button>
   <p class="quote">"Cintamu kayak undefined, selalu ada di awal, tapi hilang saat dijalankan."<br/>© Snithexercist - 1969</p>
 </div>
@@ -191,14 +190,14 @@
   <p style="margin-bottom: 10px;">A/N Naufal Rizky</p>
   <div>
     <span class="status">Available</span>
-    <button class="copy-btn" onclick="copyToClipboard('089612345678')">📋 Copy Number</button>
+    <button class="btn" onclick="copyToClipboard('089612345678')">📋 Copy Number</button>
   </div>
   <br/>
   <button class="btn" onclick="navigateTo('mainPage')">🔙 Back to Main</button>
 </div>
 
 <script>
-  // Loading saat pertama kali
+  // Show loading once
   window.addEventListener("load", () => {
     setTimeout(() => {
       document.getElementById("loadingScreen").classList.add("fadeOut");
@@ -213,12 +212,18 @@
       });
       document.getElementById(pageId).classList.remove("hidden");
       document.getElementById("loadingScreen").classList.add("fadeOut");
-    }, 800);
+    }, 600);
   }
 
   function copyToClipboard(text) {
-    navigator.clipboard.writeText(text);
-    alert("Nomor berhasil disalin: " + text);
+    navigator.clipboard.writeText(text).then(() => {
+      const toast = document.getElementById('toast');
+      toast.textContent = 'Nomor berhasil disalin: ' + text;
+      toast.style.opacity = 1;
+      setTimeout(() => {
+        toast.style.opacity = 0;
+      }, 2500);
+    });
   }
 </script>
 
