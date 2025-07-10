@@ -6,7 +6,12 @@
   <title>Snith - Products</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
     body {
       background: linear-gradient(145deg, #1e1e2f, #2d2d44);
@@ -43,7 +48,11 @@
       margin-bottom: 20px;
     }
 
-    h2 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
 
     p.subtext {
       font-size: 14px;
@@ -51,24 +60,31 @@
       margin-bottom: 20px;
     }
 
+    /* 🔘 Modern Buttons */
     .btn, button {
-      background: #ffffff0f;
+      background: rgba(255, 255, 255, 0.08);
       color: #fff;
-      padding: 12px 20px;
-      margin: 8px 6px;
-      border: none;
-      border-radius: 14px;
+      padding: 12px 24px;
+      margin: 10px 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
       cursor: pointer;
       font-size: 15px;
-      transition: 0.3s ease;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
-    .btn:hover { background: #ffffff20; transform: scale(1.05); }
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 18px rgba(255, 255, 255, 0.2);
+    }
 
     .quote {
       font-size: 13px;
@@ -79,12 +95,20 @@
     }
 
     .copy-btn {
-      padding: 8px 16px;
-      background: white;
-      color: black;
+      padding: 10px 20px;
+      background: #fff;
+      color: #000;
       font-weight: 600;
-      border-radius: 12px;
-      margin-top: 15px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .copy-btn:hover {
+      background: #f0f0f0;
+      transform: scale(1.05);
     }
 
     .status {
@@ -182,13 +206,11 @@
   });
 
   function navigateTo(pageId) {
-    // Tampilkan loading
     document.getElementById("loadingScreen").classList.remove("fadeOut");
-
-    // Delay navigasi biar efek loading muncul
     setTimeout(() => {
-      const pages = ['startPage', 'mainPage', 'paymentPage'];
-      pages.forEach(id => document.getElementById(id).classList.add("hidden"));
+      ['startPage', 'mainPage', 'paymentPage'].forEach(id => {
+        document.getElementById(id).classList.add("hidden");
+      });
       document.getElementById(pageId).classList.remove("hidden");
       document.getElementById("loadingScreen").classList.add("fadeOut");
     }, 800);
