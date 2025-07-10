@@ -3,15 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Snith - Products</title>
+  <title>Snith Produk</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+    * {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif;}
 
     body {
       background: #0f0f0f;
@@ -47,20 +42,10 @@
       margin-bottom: 20px;
     }
 
-    h2 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
+    h2 {font-size: 22px; font-weight: 600; margin-bottom: 6px;}
+    p.subtext {font-size: 14px; opacity: 0.7; margin-bottom: 20px;}
 
-    p.subtext {
-      font-size: 14px;
-      opacity: 0.7;
-      margin-bottom: 20px;
-    }
-
-    /* ✅ Modern White Rounded Buttons */
-    .btn, button {
+    .btn, button, select {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -100,7 +85,6 @@
       color: white;
     }
 
-    /* 🔄 Loading Screen */
     .loading-screen {
       position: fixed;
       top: 0; left: 0;
@@ -129,12 +113,8 @@
       100% { transform: rotate(360deg); }
     }
 
-    .fadeOut {
-      opacity: 0;
-      visibility: hidden;
-    }
+    .fadeOut {opacity: 0; visibility: hidden;}
 
-    /* 🔔 Toast Notification */
     #toast {
       position: fixed;
       bottom: 40px;
@@ -149,55 +129,85 @@
       font-size: 14px;
       z-index: 999;
     }
+
+    .product-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 18px;
+      padding: 16px;
+      margin: 12px 0;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 <body>
 
-<!-- 🔄 Loading screen -->
+<!-- 🔄 Loading -->
 <div class="loading-screen" id="loadingScreen">
   <div class="spinner"></div>
   <p>Loading...</p>
 </div>
 
-<!-- 🔔 Toast Notification -->
+<!-- 🔔 Toast -->
 <div id="toast">Tersalin!</div>
 
-<!-- 👋 Start Page -->
+<!-- 👋 Start -->
 <div class="container" id="startPage">
-  <img src="https://i.imgur.com/uTtD6QG.jpg" alt="Profile" class="profile-img">
+  <img src="https://i.imgur.com/uTtD6QG.jpg" class="profile-img" />
   <h2>Snithexercist</h2>
   <p class="subtext">Welcome to my world.</p>
   <button class="btn" onclick="navigateTo('mainPage')">🚀 Start Now</button>
 </div>
 
-<!-- 🏠 Main Menu -->
+<!-- 🏠 Main -->
 <div class="container hidden" id="mainPage">
-  <img src="https://i.imgur.com/uTtD6QG.jpg" alt="Profile" class="profile-img">
+  <img src="https://i.imgur.com/uTtD6QG.jpg" class="profile-img" />
   <h2>Snithexercist</h2>
   <button class="btn">📢 Channels</button>
-  <button class="btn">📬 Contact</button>
-  <br/>
-  <button class="btn" onclick="alert('Produk belum tersedia')">🔒 Product</button>
+  <button class="btn">📬 Contact</button><br/>
+  <button class="btn" onclick="navigateTo('productPage'); renderProducts()">🛒 Product</button>
   <button class="btn" onclick="navigateTo('paymentPage')">💳 Payments</button>
   <p class="quote">"Cintamu kayak undefined, selalu ada di awal, tapi hilang saat dijalankan."<br/>© Snithexercist - 1969</p>
 </div>
 
-<!-- 💳 Payments Page -->
+<!-- 💳 Payment -->
 <div class="container hidden" id="paymentPage">
-  <h2>💳 Payment Methods</h2>
+  <h2>💳 Pembayaran</h2>
   <img src="https://seeklogo.com/images/D/dana-logo-47272A76E5-seeklogo.com.png" alt="Dana" style="width:50px; height:50px; margin-bottom:10px;">
   <h3>📁 Dana Digital Wallet</h3>
-  <p style="margin-bottom: 10px;">A/N Naufal Rizky</p>
+  <p>A/N Naufal Rizky</p>
   <div>
     <span class="status">Available</span>
     <button class="btn" onclick="copyToClipboard('089612345678')">📋 Copy Number</button>
-  </div>
-  <br/>
-  <button class="btn" onclick="navigateTo('mainPage')">🔙 Back to Main</button>
+  </div><br/>
+  <button class="btn" onclick="navigateTo('mainPage')">🔙 Kembali</button>
 </div>
 
+<!-- 🛍 Produk -->
+<div class="container hidden" id="productPage">
+  <h2>🛒 Produk Kami</h2>
+
+  <!-- Filter & Sort -->
+  <div style="margin-bottom: 16px;">
+    <select id="categoryFilter" class="btn" onchange="renderProducts()">
+      <option value="all">📂 Semua Kategori</option>
+      <option value="WhatsApp">📱 WhatsApp</option>
+      <option value="Tool">🛠️ Tool</option>
+      <option value="Telegram">📨 Telegram</option>
+    </select>
+
+    <select id="sortOrder" class="btn" onchange="renderProducts()">
+      <option value="asc">⬇️ Termurah</option>
+      <option value="desc">⬆️ Termahal</option>
+    </select>
+  </div>
+
+  <div id="productList"></div><br>
+  <button class="btn" onclick="navigateTo('mainPage')">🔙 Kembali</button>
+</div>
+
+<!-- 🧠 Script -->
 <script>
-  // Show loading once
   window.addEventListener("load", () => {
     setTimeout(() => {
       document.getElementById("loadingScreen").classList.add("fadeOut");
@@ -207,7 +217,7 @@
   function navigateTo(pageId) {
     document.getElementById("loadingScreen").classList.remove("fadeOut");
     setTimeout(() => {
-      ['startPage', 'mainPage', 'paymentPage'].forEach(id => {
+      ['startPage', 'mainPage', 'paymentPage', 'productPage'].forEach(id => {
         document.getElementById(id).classList.add("hidden");
       });
       document.getElementById(pageId).classList.remove("hidden");
@@ -220,10 +230,67 @@
       const toast = document.getElementById('toast');
       toast.textContent = 'Nomor berhasil disalin: ' + text;
       toast.style.opacity = 1;
-      setTimeout(() => {
-        toast.style.opacity = 0;
-      }, 2500);
+      setTimeout(() => { toast.style.opacity = 0; }, 2500);
     });
+  }
+
+  const products = [
+    {
+      name: "Script WhatsApp Premium",
+      price: "Rp50.000",
+      priceValue: 50000,
+      category: "WhatsApp",
+      wa: "https://wa.me/6288989566141?text=Saya%20mau%20beli%20Script%20WhatsApp%20Premium"
+    },
+    {
+      name: "Obfuscator Encrypt JS",
+      price: "Rp30.000",
+      priceValue: 30000,
+      category: "Tool",
+      wa: "https://wa.me/6288989566141?text=Saya%20mau%20beli%20Obfuscator%20Encrypt%20JS"
+    },
+    {
+      name: "Akses Channel Telegram",
+      price: "Rp20.000",
+      priceValue: 20000,
+      category: "Telegram",
+      wa: "https://wa.me/6288989566141?text=Saya%20mau%20akses%20Channel%20Telegram"
+    }
+  ];
+
+  function renderProducts() {
+    const container = document.getElementById("productList");
+    container.innerHTML = "";
+
+    const category = document.getElementById("categoryFilter").value;
+    const sort = document.getElementById("sortOrder").value;
+
+    let filtered = [...products];
+
+    if (category !== "all") {
+      filtered = filtered.filter(p => p.category === category);
+    }
+
+    if (sort === "asc") {
+      filtered.sort((a, b) => a.priceValue - b.priceValue);
+    } else {
+      filtered.sort((a, b) => b.priceValue - a.priceValue);
+    }
+
+    filtered.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "product-card";
+      div.innerHTML = `
+        <h3>${p.name}</h3>
+        <p><strong>${p.price}</strong></p>
+        <a href="${p.wa}" target="_blank"><button class="btn">🛒 Beli Sekarang</button></a>
+      `;
+      container.appendChild(div);
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<p>Tidak ada produk ditemukan.</p>`;
+    }
   }
 </script>
 
